@@ -73,8 +73,12 @@ if __name__ == "__main__":
     statistics = []
     for direc in dirs:
         lfname = path + direc + '/' + direc + '.log' # log file name
-        statVals = statSearch(lfname)
-        statistics.append(statSum(statVals, direc))
+        try:
+            statVals = statSearch(lfname)
+        except FileNotFoundError:
+            dirs.remove(direc)
+        else:
+            statistics.append(statSum(statVals, direc))
     statistics = sorted(statistics, key=itemgetter(1), reverse=True) # sorting by descent order
     
     print(BAR)
